@@ -6,6 +6,7 @@ export const schema = yup
     email: yup
       .string()
       .email()
+      .required('Email không được để trống')
       .min(5, 'Email phải có ít nhất 5 ký tự')
       .max(160, 'Độ dài tối đa là 160 ký tự')
       .max(160, 'Độ dài tối đa là 160 ký tự'),
@@ -25,4 +26,6 @@ export const schema = yup
   })
   .required()
 
+// const loginSchema = schema.omit(['confirm_password'])
+// export type LoginSchemaType = yup.InferType<typeof loginSchema>
 export type SchemaType = yup.InferType<typeof schema>
