@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
-import { rules } from 'src/utils/rules'
+import { getRules } from 'src/utils/rules'
 
 interface FormData {
   email: string
@@ -13,12 +13,19 @@ export default function Register() {
   const {
     register,
     handleSubmit,
+    getValues,
     formState: { errors }
   } = useForm<FormData>()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
-  })
+  const rules = getRules(getValues)
+
+  const onSubmit = handleSubmit(
+    () => {},
+    () => {
+      const password = getValues('password')
+      console.log(password)
+    }
+  )
 
   return (
     <div className='bg-orange'>
@@ -30,6 +37,7 @@ export default function Register() {
               <div className='mt-8'>
                 <input
                   type='email'
+                  autoComplete='on'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                   placeholder='Email'
                   {...register('email', rules.email)}
@@ -40,6 +48,7 @@ export default function Register() {
               <div className='mt-2'>
                 <input
                   type='password'
+                  autoComplete='on'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                   placeholder='Mật khẩu'
                   {...register('password', rules.password)}
@@ -50,6 +59,7 @@ export default function Register() {
               <div className='mt-2'>
                 <input
                   type='password'
+                  autoComplete='on'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                   placeholder='Xác nhận Mật khẩu'
                   {...register('confirm_password', rules.confirm_password)}

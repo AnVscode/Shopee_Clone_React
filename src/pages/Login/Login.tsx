@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
-import { rules } from 'src/utils/rules'
+import { getRules } from 'src/utils/rules'
 
 interface FormData {
   email: string
@@ -15,9 +15,9 @@ export default function Login() {
     formState: { errors }
   } = useForm<FormData>()
 
-  const onSubmit = handleSubmit((data) => {
-    console.log(data)
-  })
+  const rules = getRules()
+
+  const onSubmit = handleSubmit(() => {})
 
   return (
     <div className='bg-orange'>
@@ -29,6 +29,7 @@ export default function Login() {
               <div className='mt-8'>
                 <input
                   type='email'
+                  autoComplete='on'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                   placeholder='Email'
                   {...register('email', rules.email)}
@@ -39,6 +40,7 @@ export default function Login() {
               <div className='mt-2'>
                 <input
                   type='pasword'
+                  autoComplete='on'
                   className='p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                   placeholder='Mật khẩu'
                   {...register('password', rules.password)}
