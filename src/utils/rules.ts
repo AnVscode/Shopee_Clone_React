@@ -1,64 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { RegisterOptions, UseFormGetValues } from 'react-hook-form'
+import * as yup from 'yup'
 
-type Rules = { [key in 'email' | 'password' | 'confirm_password']?: RegisterOptions }
+export const schema = yup
+  .object({
+    email: yup
+      .string()
+      .email()
+      .min(5, 'Email phải có ít nhất 5 ký tự')
+      .max(160, 'Độ dài tối đa là 160 ký tự')
+      .max(160, 'Độ dài tối đa là 160 ký tự'),
 
-export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
-  email: {
-    required: {
-      value: true,
-      message: 'Email không được để trống'
-    },
+    password: yup
+      .string()
+      .required('Mật khẩu không được để trống')
+      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+      .max(160, 'Mật khẩu tối đa 160 ký tự'),
 
-    pattern: {
-      value: /^\S+@\S+\.\S+$/,
-      message: 'Email không đúng định dạng'
-    },
+    confirm_password: yup
+      .string()
+      .required('Nhập lại mật khẩu không được để trống')
+      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+      .max(160, 'Mật khẩu tối đa 160 ký tự')
+      .oneOf([yup.ref('password')], 'Mật khẩu không khớp')
+  })
+  .required()
 
-    minLength: {
-      value: 5,
-      message: 'Email phải có ít nhất 5 ký tự'
-    },
-
-    maxLength: {
-      value: 160,
-      message: 'Độ dài tối đa là 160 ký tự'
-    }
-  },
-
-  password: {
-    required: {
-      value: true,
-      message: 'Mật khẩu không được để trống'
-    },
-
-    minLength: {
-      value: 6,
-      message: 'Mật khẩu phải có ít nhất 6 ký tự'
-    },
-
-    maxLength: {
-      value: 160,
-      message: 'Mật khẩu tối đa 160 ký tự'
-    }
-  },
-
-  confirm_password: {
-    required: {
-      value: true,
-      message: 'Nhập lại mật khẩu không được để trống'
-    },
-
-    minLength: {
-      value: 6,
-      message: 'Nhập lại mật khẩu phải có ít nhất 6 ký tự'
-    },
-
-    maxLength: {
-      value: 160,
-      message: 'Nhập lại mật tối đa 160 ký tự'
-    },
-
-    validate: typeof getValues === 'function' ? (v) => v === getValues('password') || 'Mật khẩu không khớp' : undefined
-  }
-})
+export type SchemaType = yup.InferType<typeof schema>
