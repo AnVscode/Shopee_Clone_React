@@ -7,6 +7,9 @@ import { omit } from 'lodash'
 import { schema, SchemaType } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import { registerAccount } from 'src/types/api/auth.api'
+import { isAxiosUnprocessableEntityErr } from 'src/utils/isAxiosErr'
+import { ResApi } from 'src/types/utils.type'
+import 'react-toastify/dist/ReactToastify.css'
 
 type FormData = SchemaType
 
@@ -14,7 +17,8 @@ export default function Register() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   })
@@ -28,6 +32,21 @@ export default function Register() {
     registerAccountMutation.mutate(body, {
       onSuccess: (data) => {
         console.log('success', data)
+      },
+
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityErr<ResApi<Omit<FormData, 'confirm_password'>>>(error)) {
+          const formErr = error.response?.data.data
+
+          if (formErr) {
+            Object.keys(formErr).forEach((key) => {
+              setError(key as keyof Omit<FormData, 'confirm_password'>, {
+                type: 'validate',
+                message: formErr[key as keyof Omit<FormData, 'confirm_password'>]
+              })
+            })
+          }
+        }
       }
     })
   })
