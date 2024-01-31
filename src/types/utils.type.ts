@@ -1,4 +1,4 @@
-export interface ResApi<T> {
+export interface ResApi<Data> {
   message: string
-  data?: T
+  data?: Data
 }
