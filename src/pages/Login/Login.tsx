@@ -1,22 +1,50 @@
 import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useMutation } from '@tanstack/react-query'
 
-import { schema, SchemaType } from 'src/utils/rules'
 import Input from 'src/components/Input'
-
-type FormData = SchemaType
+import { loginAccount } from 'src/types/api/auth.api'
+import { isAxiosUnprocessableEntityErr } from 'src/utils/isAxiosErr'
+import { ResApi } from 'src/types/utils.type'
+import { FormData, schema } from './validate/schema'
 
 export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    setError
   } = useForm<FormData>({
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = handleSubmit(() => {})
+  const loginAccountMutation = useMutation({
+    mutationFn: (body: FormData) => loginAccount(body)
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    loginAccountMutation.mutate(data, {
+      onSuccess: (data) => {
+        console.log('success', data)
+      },
+
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityErr<ResApi<FormData>>(error)) {
+          const formErr = error.response?.data.data
+
+          if (formErr) {
+            Object.keys(formErr).forEach((key) => {
+              setError(key as keyof FormData, {
+                type: 'validate',
+                message: formErr[key as keyof FormData]
+              })
+            })
+          }
+        }
+      }
+    })
+  })
 
   return (
     <div className='bg-orange'>

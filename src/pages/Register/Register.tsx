@@ -4,14 +4,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
 import { omit } from 'lodash'
 
-import { schema, SchemaType } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import { registerAccount } from 'src/types/api/auth.api'
 import { isAxiosUnprocessableEntityErr } from 'src/utils/isAxiosErr'
 import { ResApi } from 'src/types/utils.type'
-import 'react-toastify/dist/ReactToastify.css'
-
-type FormData = SchemaType
+import { FormData, schema } from './validate/schema'
 
 export default function Register() {
   const {
