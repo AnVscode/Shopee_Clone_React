@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as yup from 'yup'
 
 export const schema = yup
@@ -15,17 +14,8 @@ export const schema = yup
       .string()
       .required('Mật khẩu không được để trống')
       .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
-      .max(160, 'Mật khẩu tối đa 160 ký tự'),
-
-    confirm_password: yup
-      .string()
-      .required('Nhập lại mật khẩu không được để trống')
-      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
       .max(160, 'Mật khẩu tối đa 160 ký tự')
-      .oneOf([yup.ref('password')], 'Mật khẩu không khớp')
   })
   .required()
 
-// const loginSchema = schema.omit(['confirm_password'])
-// export type LoginSchemaType = yup.InferType<typeof loginSchema>
-export type SchemaType = yup.InferType<typeof schema>
+export type FormData = yup.InferType<typeof schema>
