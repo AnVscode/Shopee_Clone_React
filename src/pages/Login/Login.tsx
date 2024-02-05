@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useMutation } from '@tanstack/react-query'
@@ -6,10 +7,16 @@ import { useMutation } from '@tanstack/react-query'
 import Input from 'src/components/Input'
 import { loginAccount } from 'src/types/api/auth.api'
 import { isAxiosUnprocessableEntityErr } from 'src/utils/isAxiosErr'
-import { ResApi } from 'src/types/utils.type'
+import { ErrResApi } from 'src/types/utils.type'
 import { FormData, schema } from './validate/schema'
+import { AppContext } from 'src/contexts/app.context'
+import Button from 'src/components/Button'
+import path from 'src/constants/path'
 
 export default function Login() {
+  const { setIsAuthenticated, setProfile } = useContext(AppContext)
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -26,11 +33,13 @@ export default function Login() {
   const onSubmit = handleSubmit((data) => {
     loginAccountMutation.mutate(data, {
       onSuccess: (data) => {
-        console.log('success', data)
+        setIsAuthenticated(true)
+        navigate(path.home)
+        setProfile(data.data.data.user)
       },
 
       onError: (error) => {
-        if (isAxiosUnprocessableEntityErr<ResApi<FormData>>(error)) {
+        if (isAxiosUnprocessableEntityErr<ErrResApi<FormData>>(error)) {
           const formErr = error.response?.data.data
 
           if (formErr) {
@@ -71,13 +80,18 @@ export default function Login() {
                 errorMessage={errors.password?.message}
               />
               <div className='mt-2'>
-                <button className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600'>
+                <Button
+                  isLoading={loginAccountMutation.isLoading}
+                  disabled={loginAccountMutation.isLoading}
+                  type='submit'
+                  className='w-full text-center py-4 px-2 uppercase bg-red-500 text-white text-sm hover:bg-red-600 flex items-center justify-center'
+                >
                   Đăng nhập
-                </button>
+                </Button>
               </div>
               <div className='flex items-center justify-center mt-8'>
                 <span className='text-gray-300'>Bạn chưa có tài khoản?</span>
-                <Link to='/register' className='text-red-400 ml-1'>
+                <Link to={path.register} className='text-red-400 ml-1'>
                   Đăng ký
                 </Link>
               </div>
