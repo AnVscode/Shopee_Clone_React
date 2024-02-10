@@ -17,7 +17,7 @@ export default function ProductList() {
             <SortProductList />
 
             {/* items */}
-            <div className='mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
+            <div className='mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
               {/* product items */}
               {Array(30)
                 .fill(0)
