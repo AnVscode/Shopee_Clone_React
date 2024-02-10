@@ -1,12 +1,17 @@
 interface StarIconProps {
   full?: boolean
+  size?: number
+  className?: string
 }
 
-export default function StarIcon({ full = false }: StarIconProps) {
+export default function StarIcon({ full = false, size = 4, className }: StarIconProps) {
+  const sizeStyle = `w-${size} h-${size}`
+  const customClassName = className || 'mr-1'
+
   return (
     <>
       {full ? (
-        <svg viewBox='0 0 9.5 8' className='w-4 h-4 mr-1'>
+        <svg viewBox='0 0 9.5 8' className={`${sizeStyle} ${customClassName}`}>
           <defs>
             <linearGradient id='ratingStarGradient' x1='50%' x2='50%' y1='0%' y2='100%'>
               <stop offset={0} stopColor='#ffca11' />
@@ -32,7 +37,7 @@ export default function StarIcon({ full = false }: StarIconProps) {
           </g>
         </svg>
       ) : (
-        <svg viewBox='0 0 30 30' className='w-4 h-4 mr-1'>
+        <svg viewBox='0 0 30 30' className={`${sizeStyle} ${customClassName}`}>
           <defs>
             <linearGradient id='star__hollow' x1='50%' x2='50%' y1='0%' y2='99.0177926%'>
               <stop offset='0%' stopColor='#FFD211' />
