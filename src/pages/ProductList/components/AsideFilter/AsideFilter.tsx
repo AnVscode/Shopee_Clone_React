@@ -94,6 +94,19 @@ export default function AsideFilter() {
                   <StarIcon full />
                 </div>
               ))}
+            {/* <span className='ml-2'>Trở lên</span> */}
+          </Link>
+        </li>
+
+        <li className='py-1 pl-2'>
+          <Link to={path.home} className='flex items-center text-sm'>
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index}>
+                  <StarIcon full />
+                </div>
+              ))}
             <span className='ml-2'>Trở lên</span>
           </Link>
         </li>
@@ -104,7 +117,20 @@ export default function AsideFilter() {
               .fill(0)
               .map((_, index) => (
                 <div key={index}>
-                  <StarIcon />
+                  <StarIcon full />
+                </div>
+              ))}
+            <span className='ml-2'>Trở lên</span>
+          </Link>
+        </li>
+
+        <li className='py-1 pl-2'>
+          <Link to={path.home} className='flex items-center text-sm'>
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index}>
+                  <StarIcon full />
                 </div>
               ))}
             <span className='ml-2'>Trở lên</span>

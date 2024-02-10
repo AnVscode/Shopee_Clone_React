@@ -19,7 +19,7 @@ export default function ProductList() {
             {/* items */}
             <div className='mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3'>
               {/* product items */}
-              {Array(30)
+              {Array(10)
                 .fill(0)
                 .map((_, index) => (
                   <div key={index} className='col-span-1'>
