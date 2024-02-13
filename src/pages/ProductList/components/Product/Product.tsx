@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 
 import path from 'src/constants/path'
-import StarIcon from '../../svg/star'
 import { Product as ProductType } from 'src/types/product.type'
 import { formatCurrency, formatNumberToSocialStyle } from 'src/utils/formatNumber'
+import ProductRating from '../ProductRating'
 
 interface ProductProps {
   product: ProductType
@@ -37,15 +37,7 @@ export default function Product({ product }: ProductProps) {
           </div>
 
           <div className='mt-3 flex items-center justify-end'>
-            <div className='flex items-center'>
-              <div className='relative'>
-                <div className='absolute top-0 left-0 h-full overflow-hidden' style={{ width: '50%' }}>
-                  <StarIcon full className='w-3 h-3 fill-yellow-300 text-yellow-300' />
-                </div>
-
-                <StarIcon className='w-3 h-3 fill-current text-gray-300' />
-              </div>
-            </div>
+            <ProductRating rating={product.rating} />
 
             <div className='ml-2 text-sm'>
               <span>{formatNumberToSocialStyle(product.sold)}</span>
