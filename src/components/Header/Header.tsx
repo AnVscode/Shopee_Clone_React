@@ -8,7 +8,7 @@ import Logo from './svg/logo'
 import MagnifyingGlass from './svg/magnifyingGlass'
 import ShoppingCart from './svg/shoppingCart'
 import Popover from '../Popover'
-import { logoutAccount } from 'src/types/api/auth.api'
+import { authApi } from 'src/types/api/auth.api'
 import { AppContext } from 'src/contexts/app.context'
 import path from 'src/constants/path'
 
@@ -16,7 +16,7 @@ export default function Header() {
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } = useContext(AppContext)
 
   const logoutAccountMutation = useMutation({
-    mutationFn: logoutAccount,
+    mutationFn: authApi.logoutAccount,
     onSuccess: () => {
       setIsAuthenticated(false)
       setProfile(null)
