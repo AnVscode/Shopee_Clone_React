@@ -4,7 +4,7 @@ import { Link, createSearchParams } from 'react-router-dom'
 import path from 'src/constants/path'
 import { QueryConfig } from 'src/pages/ProductList/ProductList'
 
-interface Props {
+interface PaginationProps {
   queryConfig: QueryConfig
   pageSize: number
 }
@@ -30,7 +30,7 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh curr
 1 2 ... 18 19 [20]
  */
 
-export default function Pagination({ queryConfig, pageSize }: Props) {
+export default function Pagination({ queryConfig, pageSize }: PaginationProps) {
   const RANGE = 2
 
   const page = Number(queryConfig.page)
@@ -101,7 +101,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
   return (
     <div className='mt-6 flex flex-wrap justify-center'>
       {page === 1 ? (
-        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2  shadow-sm'>Prev</span>
+        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm'>Prev</span>
       ) : (
         <Link
           to={{
@@ -111,7 +111,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
               page: (page - 1).toString()
             }).toString()
           }}
-          className='mx-2 cursor-pointer rounded border bg-white px-3 py-2  shadow-sm'
+          className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'
         >
           Prev
         </Link>
@@ -119,7 +119,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
 
       {renderPagination()}
       {page === pageSize ? (
-        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2  shadow-sm'>Next</span>
+        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm'>Next</span>
       ) : (
         <Link
           to={{
@@ -129,7 +129,7 @@ export default function Pagination({ queryConfig, pageSize }: Props) {
               page: (page + 1).toString()
             }).toString()
           }}
-          className='mx-2 cursor-pointer rounded border bg-white px-3 py-2  shadow-sm'
+          className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'
         >
           Next
         </Link>
